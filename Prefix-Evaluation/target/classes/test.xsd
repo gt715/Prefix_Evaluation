@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Define the expr element -->
+    <xs:element name="expr" type="exprType"/>
+
+    <!-- Define the exprType complex type -->
+    <xs:complexType name="exprType">
+        <xs:choice>
+            <!-- If type is atom, it should contain one atom element -->
+            <xs:sequence>
+                <xs:element name="atom">
+                    <xs:complexType>
+                        <xs:attribute name="value" type="xs:integer" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <!-- If type is binary, it should contain one operator element and two expr elements -->
+            <xs:sequence>
+                <xs:element name="operator">
+                    <xs:complexType>
+                        <xs:attribute name="value" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="+"/>
+                                    <xs:enumeration value="-"/>
+                                    <xs:enumeration value="*"/>
+                                    <xs:enumeration value="/"/>
+                                    <xs:enumeration value="^"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="expr" type = "exprType" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:choice>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>
